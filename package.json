@@ -1,0 +1,32 @@
+{
+    "name": "TimeCloud",
+    "version":  "0.0.0",
+    "author":   "TimeShift",
+    "description":  "The TimeShift Node.JS project back-end",
+    "contributors": [
+        {
+            "name": "William Rory Kronmiller",
+            "email":    "wrk961@gmail.com"
+        }
+    ],
+    "engines":  {
+        "node": "=0.10.36"
+    },
+    "repository":   {
+        "type": "git",
+        "url":  "https://github.com/RPISDD/TimeCloud.git"
+    },
+    "keywords": [
+        "RPI",
+        "SDD"
+    ],
+    "dependencies": {},
+    "devDependencies":  {
+        "jshint":   "^2.5.5"
+    },
+    "scripts":  {
+        "lint": "jshint lib test scripts apis",
+        "test": "node test/maintester.js"
+    },
+    "license":  "Apache-2.0"
+}
