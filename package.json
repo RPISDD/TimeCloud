@@ -23,10 +23,11 @@
         "RPI",
         "SDD"
     ],
-    "dependencies": {},
-    "devDependencies":  {
-        "jshint":   "^2.5.5",
+    "dependencies": {
 	"dynamodb":"totemstech/node-dynamodb"
+    },
+    "devDependencies":  {
+        "jshint":   "^2.5.5"
     },
     "scripts":  {
         "lint": "jshint lib test scripts apis",
