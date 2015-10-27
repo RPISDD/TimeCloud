@@ -25,7 +25,8 @@
     ],
     "dependencies": {},
     "devDependencies":  {
-        "jshint":   "^2.5.5"
+        "jshint":   "^2.5.5",
+	"dynamodb":"totemstech/node-dynamodb"
     },
     "scripts":  {
         "lint": "jshint lib test scripts apis",
