@@ -1,4 +1,4 @@
-var moduleFactory = require('lib/shared/ModuleFactory.js');
+var moduleFactory = require('./lib/shared/ModuleFactory.js');
 exports.handler = function(event, context){
 
 };
