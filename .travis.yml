@@ -5,3 +5,5 @@ node_js:
 script:
     - npm test
     - npm run lint
+notifications:
+  slack: rpissdd:NAnaR3RhZdC0WySzNnGYMbix
