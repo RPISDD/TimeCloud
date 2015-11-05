@@ -18,16 +18,21 @@ exports.handler = function(event, context){
     var rep = reply(req);
     var err = errorHandler(req);
     //NEED TO LOOKUP IN USERDB FIRST, FIX
-    try {
-  		var decoded = jwt.verify(token, cert);
-	} 
-	catch(err) {
+    var decoded = {};
+    if(typeof token != 'undefined'){
+        try {
+  		decoded = jwt.verify(token, cert, { algorithms: ['RS256'] });
+	   } 
+    	catch(err) {
 		//err
+        console.log(err);
 		console.log("token invalid");
 
-	}
+	   }
+    }else{
+        decoded.RIN = event.RIN;
+    }
     var usr = user(decoded.RIN,token);
-    var usr = user()
     
     var module = moduleFactory(callingFunction, usr, req, rep);
     module.run();
