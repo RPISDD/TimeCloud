@@ -24,7 +24,9 @@
         "SDD"
     ],
     "dependencies": {
-	"dynamodb":"totemstech/node-dynamodb"
+	   "dynamodb":"totemstech/node-dynamodb",
+       "jsonwebtoken": "^5.4.1",
+       "promise" : "^7.0.4"
     },
     "devDependencies":  {
         "jshint":   "^2.5.5"
