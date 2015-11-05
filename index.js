@@ -8,7 +8,7 @@ var fs = require('fs');
 var jwt = require('jsonwebtoken');
 
 // sign with RSA SHA256
-var cert = fs.readFileSync('rsa');  // get private key
+var cert = fs.readFileSync('rsa.pub');  // get private key
 
 exports.handler = function(event, context){
     var callingFunction = context.functionName;
