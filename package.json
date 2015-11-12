@@ -24,7 +24,7 @@
     "SDD"
   ],
   "dependencies": {
-    "dynamodb": "totemstech/node-dynamodb",
+    "dynamodb": "git://github.com/totemstech/node-dynamodb",
     "jsonwebtoken": "~5.4.1",
     "promise": "^7.0.4",
     "aws-sdk": "~2.2.16"
