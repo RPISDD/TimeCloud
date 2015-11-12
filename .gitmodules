@@ -1,0 +1,3 @@
+[submodule "StaticWeb"]
+	path = StaticWeb
+	url = https://github.com/RPISDD/StaticWeb.git
