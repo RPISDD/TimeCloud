@@ -27,7 +27,7 @@ exports.handler = function(event, context){
       catch(err) {
 		    //err
         console.log(err);
-		    console.log("token invalid");
+		    console.log('token invalid');
 	    }
     }
     else {
@@ -55,10 +55,12 @@ var serve = function(){
     // Set up callbacks
     context.succeed = context.fail = response.send;
     // Get root URL
-    context.functionName = request.url.split('/')[1];
+    context.functionName = request.path.split('/')[1];
 
     // Make a fake evt
     var evt = {};
+    // Grab query string
+    evt = request.query;
 
     console.log('Calling exports handler');
     exports.handler(evt, context);
