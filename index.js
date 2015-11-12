@@ -14,7 +14,7 @@ var cert = fs.readFileSync('rsa.pub');  // get private key
 exports.handler = function(event, context){
     var callingFunction = context.functionName;
     var token = event.sessionToken;
-    
+
     var req = request(token,event,context);
     var rep = reply(req);
     var err = errorHandler(req);
@@ -23,9 +23,7 @@ exports.handler = function(event, context){
     if(typeof token != 'undefined'){
       try {
   		  decoded = jwt.verify(token, cert, { algorithms: ['RS256'] });
-	    } 
-      catch(err) {
-		    //err
+	    } catch(err) {
         console.log(err);
 		    console.log('token invalid');
 	    }
@@ -52,7 +50,8 @@ var serve = function(){
   // Enable CORS
   app.use(function(request, result, next) {
     result.header('Access-Control-Allow-Origin', '*');
-    result.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    result.header('Access-Control-Allow-Headers',
+                  'Origin, X-Requested-With, Content-Type, Accept');
     next();
   });
 
@@ -99,7 +98,9 @@ var serve = function(){
     try {
       exports.handler(eventContext.evt, eventContext.context);
     } catch(error) {
-      console.error('Failed to run module ', eventContext.context.functionName, ' for reason: ', error);
+      console.error('Failed to run module ',
+                    eventContext.context.functionName,
+                    'for reason:', error);
     }
   }
 
