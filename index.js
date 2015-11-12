@@ -21,21 +21,24 @@ exports.handler = function(event, context){
     //NEED TO LOOKUP IN USERDB FIRST, FIX
     var decoded = {};
     if(typeof token != 'undefined'){
-        try {
-  		decoded = jwt.verify(token, cert, { algorithms: ['RS256'] });
-	   } 
-    	catch(err) {
-		//err
+      try {
+  		  decoded = jwt.verify(token, cert, { algorithms: ['RS256'] });
+	    } 
+      catch(err) {
+		    //err
         console.log(err);
-		console.log("token invalid");
-
-	   }
-    }else{
-        decoded.RIN = event.RIN;
+		    console.log("token invalid");
+	    }
     }
+    else {
+      decoded.RIN = event.RIN;
+    }
+
+    console.log('Loading user');
     var usr = user(decoded.RIN,token);
-    
+
     var module = moduleFactory(callingFunction, usr, req, rep);
+    console.log('Running module: ', module);
     module.run();
 };
 
@@ -45,6 +48,7 @@ var serve = function(){
   var app = express();
 
   app.get('*', function(request, response){
+    console.log('Received request');
     // Make a context object
     var context = {};
     // Set up callbacks
@@ -55,6 +59,7 @@ var serve = function(){
     // Make a fake evt
     var evt = {};
 
+    console.log('Calling exports handler');
     exports.handler(evt, context);
   });
 
