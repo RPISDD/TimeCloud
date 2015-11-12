@@ -47,6 +47,7 @@ var serve = function(){
   var express = require('express');
   var app = express();
 
+  // Create GET handler
   app.get('*', function(request, response){
     console.log('Received request');
     // Make a context object
