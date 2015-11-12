@@ -31,7 +31,7 @@ exports.handler = function(event, context){
 	    }
     }
     else {
-      decoded.RIN = event.RIN;
+      decoded.RIN = parseInt(event.RIN);
     }
 
     console.log('Loading user');
@@ -40,6 +40,7 @@ exports.handler = function(event, context){
     var module = moduleFactory(callingFunction, usr, req, rep);
     console.log('Running module: ', module);
     module.run();
+    console.log('Module completed execution');
 };
 
 
@@ -53,7 +54,11 @@ var serve = function(){
     // Make a context object
     var context = {};
     // Set up callbacks
-    context.succeed = context.fail = response.send;
+    context.succeed = context.fail = function(payload){
+      console.log('Sending payload: ', payload);
+      console.log('Using response: ', response);
+      response.send(payload);
+    };
     // Get root URL
     context.functionName = request.path.split('/')[1];
 
@@ -63,7 +68,10 @@ var serve = function(){
     evt = request.query;
 
     console.log('Calling exports handler');
-    exports.handler(evt, context);
+    try{
+      exports.handler(evt, context);
+    }catch(error){
+      console.error('Failed to run module ', context.functionName, ' for reason: ', error);
   });
 
   var listener = app.listen(8080, function(){
