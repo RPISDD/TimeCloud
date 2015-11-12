@@ -4,6 +4,7 @@ var reply = require('./lib/shared/Reply.js');
 var errorHandler = require('./lib/shared/ErrorHandler.js');
 var user = require('./lib/shared/User.js');
 var fs = require('fs');
+
 // sign with default (HMAC SHA256)
 var jwt = require('jsonwebtoken');
 
@@ -38,3 +39,28 @@ exports.handler = function(event, context){
     module.run();
 };
 
+
+var serve = function(){
+  var express = require('express');
+  var app = express();
+
+  app.get('*', function(request, response){
+    // Make a context object
+    var context = {};
+    // Set up callbacks
+    context.succeed = context.fail = response.send;
+    // Get root URL
+    context.functionName = request.url.split('/')[1];
+
+    // Make a fake evt
+    var evt = {};
+
+    exports.handler(evt, context);
+  });
+
+  var listener = app.listen(8080, function(){
+    console.log('Server started');
+  });
+};
+
+serve();

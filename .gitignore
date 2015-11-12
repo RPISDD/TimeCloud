@@ -1,3 +1,4 @@
 lib/shared/credentials.js
 rsa
+rsa.pub
 node_modules/
