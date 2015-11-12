@@ -45,11 +45,24 @@ exports.handler = function(event, context){
 
 
 var serve = function(){
+  // Encapsulate expressJS dependency
   var express = require('express');
   var app = express();
 
-  // Create GET handler
-  app.get('*', function(request, response){
+  // Enable CORS
+  app.use(function(request, result, next) {
+    result.header('Access-Control-Allow-Origin', '*');
+    result.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    next();
+  });
+
+  // Enable POST parsing
+  var bodyParser = require('body-parser');
+  app.use(bodyParser.json()); // Parses application/json
+  app.use(bodyParser.urlencoded({extended: true})); // Parses form encoded
+
+  // Generate event and context for Lambda handler
+  var genEventContext = function(request, response){
     console.log('Received request');
     // Make a context object
     var context = {};
@@ -64,16 +77,47 @@ var serve = function(){
 
     // Make a fake evt
     var evt = {};
-    // Grab query string
-    evt = request.query;
 
+    var extend = function(target, source) {
+      for(var index in source){
+        target[index] = source[index];
+      }
+    }
+    // Concatenate with query string
+    extend(evt, request.query);
+    // Concatenate with body
+    extend(evt, request.body);
+
+    //TODO: REMOVE
+    evt.RIN = '123456'; // Hard-coded
+
+    return { evt: evt, context: context };
+  }
+
+  var callLambda = function(eventContext){
     console.log('Calling exports handler');
-    try{
-      exports.handler(evt, context);
-    }catch(error){
-      console.error('Failed to run module ', context.functionName, ' for reason: ', error);
+    try {
+      exports.handler(eventContext.evt, eventContext.context);
+    } catch(error) {
+      console.error('Failed to run module ', eventContext.context.functionName, ' for reason: ', error);
+    }
+  }
+
+  // Create GET handler
+  app.get('*', function(request, response) {
+    var eventContext = genEventContext(request, response);
+    eventContext.context.httpMethod = 'GET';
+    callLambda(eventContext);
   });
 
+  // Create POST handler
+  app.post('*', function(request, response) {
+    var eventContext = genEventContext(request, response);
+    eventContext.context.httpMethod = 'POST';
+    callLambda(eventContext);
+  });
+
+  // Start server
   var listener = app.listen(8080, function(){
     console.log('Server started');
   });
