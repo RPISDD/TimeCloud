@@ -105,18 +105,21 @@ var serve = function(){
   }
 
   // Create GET handler
-  app.get('*', function(request, response) {
+  app.get('/api/*', function(request, response) {
     var eventContext = genEventContext(request, response);
     eventContext.context.httpMethod = 'GET';
     callLambda(eventContext);
   });
 
   // Create POST handler
-  app.post('*', function(request, response) {
+  app.post('/api/*', function(request, response) {
     var eventContext = genEventContext(request, response);
     eventContext.context.httpMethod = 'POST';
     callLambda(eventContext);
   });
+
+  // Serve static content
+  app.use('/', express.static('StaticWeb'));
 
   // Start server
   var listener = app.listen(8080, function(){
