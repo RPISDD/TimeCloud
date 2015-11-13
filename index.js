@@ -72,7 +72,7 @@ var serve = function(){
       response.send(payload);
     };
     // Get root URL
-    context.functionName = request.path.split('/')[1];
+    context.functionName = request.path.split('/')[2];
 
     // Make a fake evt
     var evt = {};
@@ -118,12 +118,14 @@ var serve = function(){
     callLambda(eventContext);
   });
 
+  var staticWebLocation = require('process').env.STATIC_WEB_DIR || './StaticWeb/dist';
+
   // Serve static content
-  app.use('/', express.static('StaticWeb'));
+  app.use('/', express.static(staticWebLocation));
 
   // Start server
   var listener = app.listen(8080, function(){
-    console.log('Server started');
+    console.log('Server started, serving from', staticWebLocation);
   });
 };
 
