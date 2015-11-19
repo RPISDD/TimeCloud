@@ -15,12 +15,10 @@ var cert = fs.readFileSync('rsa.pub');  // get private key
 var SERVER_PORT = 5000;
 
 exports.handler = function(event, context){
-  if(context.functionName == "tsLogin"){
-	  event.RIN = event.email;
-  } else {
-	  event.RIN = Number(event.RIN);
-  }
-  console.log(event);
+  console.log('Handling event:', event);
+  
+	event.RIN = Number(event.RIN);
+
   var callingFunction = context.functionName;
   var token = event.sessionToken;
 
@@ -39,7 +37,7 @@ exports.handler = function(event, context){
     }
   }
   else {
-    decoded.RIN = parseInt(Number(event.email));
+    decoded.RIN = Number(event.RIN);
   }
 
   console.log('Loading user');
@@ -114,6 +112,7 @@ var serve = function(){
   app.get('/api/*', function(request, response) {
     var eventContext = genEventContext(request, response);
     eventContext.context.httpMethod = 'GET';
+    console.log('GET:', request);
     callLambda(eventContext);
   });
 
