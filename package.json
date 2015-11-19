@@ -30,7 +30,8 @@
     "aws-sdk": "~2.2.16",
     "body-parser": "~1.14.1",
     "jquery": "~2.1.4",
-    "express": "~4.13.3"
+    "express": "~4.13.3",
+    "cli": "~0.11.1"
   },
   "devDependencies": {
     "jshint": "^2.5.5"
