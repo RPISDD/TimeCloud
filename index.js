@@ -11,6 +11,9 @@ var jwt = require('jsonwebtoken');
 // sign with RSA SHA256
 var cert = fs.readFileSync('rsa.pub');  // get private key
 
+// Server Settings
+var SERVER_PORT = 5000;
+
 exports.handler = function(event, context){
   if(context.functionName == "tsLogin"){
 	  event.RIN = event.email;
@@ -74,8 +77,7 @@ var serve = function(){
     var context = {};
     // Set up callbacks
     context.succeed = context.fail = function(payload){
-      //console.log('Sending payload: ', payload);
-      //console.log('Using response: ', response);
+      console.log('Sending payload: ', payload);
       response.send(payload);
     };
     // Get root URL
@@ -122,13 +124,14 @@ var serve = function(){
     callLambda(eventContext);
   });
 
-  var staticWebLocation = require('process').env.STATIC_WEB_DIR || './StaticWeb/dist';
+  var staticWebLocation = require('process').env.STATIC_WEB_DIR ||
+                                            './StaticWeb/dist';
 
   // Serve static content
   app.use('/', express.static(staticWebLocation));
 
   // Start server
-  var listener = app.listen(5000, function(){
+  var listener = app.listen(SERVER_PORT, function(){
     console.log('Server started, serving from', staticWebLocation);
   });
 };
