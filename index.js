@@ -94,6 +94,8 @@ var serve = function(){
     // Concatenate with body
     extend(evt, request.body);
 
+    console.log('Received request query', request.query);
+
     return { evt: evt, context: context };
   }
 
@@ -112,7 +114,6 @@ var serve = function(){
   app.get('/api/*', function(request, response) {
     var eventContext = genEventContext(request, response);
     eventContext.context.httpMethod = 'GET';
-    console.log('GET:', request);
     callLambda(eventContext);
   });
 
