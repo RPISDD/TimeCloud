@@ -12,33 +12,33 @@ var jwt = require('jsonwebtoken');
 var cert = fs.readFileSync('rsa.pub');  // get private key
 
 exports.handler = function(event, context){
-    var callingFunction = context.functionName;
-    var token = event.sessionToken;
+  var callingFunction = context.functionName;
+  var token = event.sessionToken;
 
-    var req = request(token,event,context);
-    var rep = reply(req);
-    var err = errorHandler(req);
-    //NEED TO LOOKUP IN USERDB FIRST, FIX
-    var decoded = {};
-    if(typeof token != 'undefined'){
-      try {
-        decoded = jwt.verify(token, cert, { algorithms: ['RS256'] });
-      } catch(err) {
-        console.log(err);
-        console.log('token invalid');
-      }
+  var req = request(token,event,context);
+  var rep = reply(req);
+  var err = errorHandler(req);
+  //NEED TO LOOKUP IN USERDB FIRST, FIX
+  var decoded = {};
+  if(typeof token != 'undefined'){
+    try {
+      decoded = jwt.verify(token, cert, { algorithms: ['RS256'] });
+    } catch(err) {
+      console.log(err);
+      console.log('token invalid');
     }
-    else {
-      decoded.RIN = parseInt(event.RIN);
-    }
+  }
+  else {
+    decoded.RIN = parseInt(event.RIN);
+  }
 
-    console.log('Loading user');
-    var usr = user(decoded.RIN,token);
+  console.log('Loading user');
+  var usr = user(decoded.RIN,token);
 
-    var module = moduleFactory(callingFunction, usr, req, rep);
-    console.log('Running module: ', module);
-    module.run();
-    console.log('Module completed execution');
+  var module = moduleFactory(callingFunction, usr, req, rep);
+  console.log('Running module: ', module);
+  module.run();
+  console.log('Module completed execution');
 };
 
 
