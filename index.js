@@ -12,6 +12,14 @@ var jwt = require('jsonwebtoken');
 var cert = fs.readFileSync('rsa.pub');  // get private key
 
 exports.handler = function(event, context){
+    //console.log(event.email);
+    //console.log(event.password);
+    if(context.functionName == "tsLogin"){
+	event.RIN = event.email;
+    } else {
+	event.RIN = Number(event.RIN);
+    }
+    console.log(event);
     var callingFunction = context.functionName;
     var token = event.sessionToken;
 
@@ -19,6 +27,7 @@ exports.handler = function(event, context){
     var rep = reply(req);
     var err = errorHandler(req);
     //NEED TO LOOKUP IN USERDB FIRST, FIX
+    
     var decoded = {};
     if(typeof token != 'undefined'){
       try {
@@ -29,14 +38,14 @@ exports.handler = function(event, context){
       }
     }
     else {
-      decoded.RIN = parseInt(event.RIN);
+      decoded.RIN = parseInt(Number(event.email));
     }
 
     console.log('Loading user');
     var usr = user(decoded.RIN,token);
 
     var module = moduleFactory(callingFunction, usr, req, rep);
-    console.log('Running module: ', module);
+    //console.log('Running module: ', module);
     module.run();
     console.log('Module completed execution');
 };
@@ -67,8 +76,8 @@ var serve = function(){
     var context = {};
     // Set up callbacks
     context.succeed = context.fail = function(payload){
-      console.log('Sending payload: ', payload);
-      console.log('Using response: ', response);
+      //console.log('Sending payload: ', payload);
+      //console.log('Using response: ', response);
       response.send(payload);
     };
     // Get root URL
@@ -88,7 +97,7 @@ var serve = function(){
     extend(evt, request.body);
 
     //TODO: REMOVE
-    evt.RIN = '123456'; // Hard-coded
+    //evt.RIN = '123456'; // Hard-coded
 
     return { evt: evt, context: context };
   }
@@ -124,7 +133,7 @@ var serve = function(){
   app.use('/', express.static(staticWebLocation));
 
   // Start server
-  var listener = app.listen(8080, function(){
+  var listener = app.listen(5000, function(){
     console.log('Server started, serving from', staticWebLocation);
   });
 };
