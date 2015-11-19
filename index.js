@@ -22,11 +22,11 @@ exports.handler = function(event, context){
     var decoded = {};
     if(typeof token != 'undefined'){
       try {
-  		  decoded = jwt.verify(token, cert, { algorithms: ['RS256'] });
-	    } catch(err) {
+        decoded = jwt.verify(token, cert, { algorithms: ['RS256'] });
+      } catch(err) {
         console.log(err);
-		    console.log('token invalid');
-	    }
+        console.log('token invalid');
+      }
     }
     else {
       decoded.RIN = parseInt(event.RIN);
