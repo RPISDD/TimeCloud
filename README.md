@@ -9,6 +9,7 @@ over https, however, so it is highly recommended you do not try to edit the
 submodule from inside TimeCloud.
 
 ## Custom StaticWeb Directory
-To set a custom StaticWeb location (e.g. for developing Polymer), set
-`STATIC_WEB_DIR` to the dist directory you wish to serve. Don't forget to run
-`gulp` from root of your StaticWeb directory to compile to dist.
+To set a custom StaticWeb location (e.g. for developing Polymer), set the
+`STATIC_WEB_DIR` environment variable to the dist directory you wish to serve.
+Don't forget to run `gulp` from root of your StaticWeb directory to compile to
+dist.
