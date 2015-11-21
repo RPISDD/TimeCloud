@@ -1,0 +1,20 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/home/wrkronmiller/bin/node', '/bin/npm', 'run', 'lint' ]
+2 info using npm@1.3.6
+3 info using node@v4.2.1
+4 error Error: ENOENT: no such file or directory, open '/home/wrkronmiller/Dropbox/College/Year3Sem1RPI/SoftwareDesignDoc/TimeCloud/lib/shared/package.json'
+4 error     at Error (native)
+5 error If you need help, you may report this log at:
+5 error     <http://github.com/isaacs/npm/issues>
+5 error or email it to:
+5 error     <npm-@googlegroups.com>
+6 error System Linux 4.2.6-200.fc22.x86_64
+7 error command "/home/wrkronmiller/bin/node" "/bin/npm" "run" "lint"
+8 error cwd /home/wrkronmiller/Dropbox/College/Year3Sem1RPI/SoftwareDesignDoc/TimeCloud/lib/shared
+9 error node -v v4.2.1
+10 error npm -v 1.3.6
+11 error path /home/wrkronmiller/Dropbox/College/Year3Sem1RPI/SoftwareDesignDoc/TimeCloud/lib/shared/package.json
+12 error syscall open
+13 error code ENOENT
+14 error errno -2
+15 verbose exit [ -2, true ]
