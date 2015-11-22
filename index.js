@@ -42,7 +42,9 @@ exports.handler = function(event, context){
   else {
     //decoded.RIN = Number(event.RIN);
     console.log("no token sent");
-    return;
+    if(callingFunction!=='tsLogin' && callingFunction!=='tsSignup') {
+      return;
+    }
   }
 
   console.log('Loading user');
