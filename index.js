@@ -31,6 +31,7 @@ exports.handler = function(event, context){
   if(typeof token != 'undefined'){
     try {
       decoded = jwt.verify(token, cert, { algorithms: ['RS256'] });
+      console.log('Token validated');
     } catch(err) {
       console.log(err);
       console.log('token invalid');
@@ -93,6 +94,11 @@ var serve = function(){
     extend(evt, request.query);
     // Concatenate with body
     extend(evt, request.body);
+    // Set JWT token
+    if(request.headers.authorization){
+      evt.sessionToken = request.headers.authorization.split(' ').pop()
+        .replace('"','');
+    }
 
     console.log('Received request query', request.query);
 
