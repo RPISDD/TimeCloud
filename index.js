@@ -40,7 +40,9 @@ exports.handler = function(event, context){
     }
   }
   else {
-    decoded.RIN = Number(event.RIN);
+    //decoded.RIN = Number(event.RIN);
+    console.log("no token sent");
+    return;
   }
 
   console.log('Loading user');
