@@ -83,8 +83,15 @@ var serve = function(){
       console.log('Sending payload: ', payload);
       response.send(payload);
     };
+
+    // Parse requested URL
+    var pathElements = request.path.split('/');
     // Get root URL
-    context.functionName = request.path.split('/')[2];
+    context.functionName = pathElements[2];
+    // Get database
+    if(pathElements.length > 3) {
+      context.databaseName = pathElements[3];
+    }
 
     // Make a fake evt
     var evt = {};
