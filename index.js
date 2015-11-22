@@ -35,6 +35,8 @@ exports.handler = function(event, context){
     } catch(err) {
       console.log(err);
       console.log('token invalid');
+      console.log('Invalid token', token);
+      return;
     }
   }
   else {
@@ -97,7 +99,7 @@ var serve = function(){
     // Set JWT token
     if(request.headers.authorization){
       evt.sessionToken = request.headers.authorization.split(' ').pop()
-        .replace('"','');
+        .replace(/"/g,'');
     }
 
     console.log('Received request query', request.query);
