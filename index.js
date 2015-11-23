@@ -14,6 +14,10 @@ var cert = fs.readFileSync('rsa.pub');  // get private key
 // Server Settings
 var SERVER_PORT = 5000;
 
+/* 
+ * Main REST Call Handler,
+ * Originally Created to handle Amazon Lambda data
+ */
 exports.handler = function(event, context){
   console.log('Handling event:', event);
   
@@ -25,8 +29,7 @@ exports.handler = function(event, context){
   var req = request(token,event,context);
   var rep = reply(req);
   var err = errorHandler(req);
-  //NEED TO LOOKUP IN USERDB FIRST, FIX
-    
+   
   var decoded = {};
   if(typeof token != 'undefined'){
     try {
@@ -56,7 +59,10 @@ exports.handler = function(event, context){
 
 };
 
-
+/*
+ * Do general HTTP request handling,
+ * prepare data structures for REST processor.
+ */
 var serve = function(){
   // Encapsulate expressJS dependency
   var express = require('express');
@@ -118,6 +124,7 @@ var serve = function(){
     return { evt: evt, context: context };
   }
 
+  // Function to pass processed requests to REST handler
   var callLambda = function(eventContext){
     console.log('Calling exports handler');
     try {
@@ -143,6 +150,7 @@ var serve = function(){
     callLambda(eventContext);
   });
 
+  // Root directory for .html, .css, .js files
   var staticWebLocation = require('process').env.STATIC_WEB_DIR ||
                                             './StaticWeb/dist';
 
